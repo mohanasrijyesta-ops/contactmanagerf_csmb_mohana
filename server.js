@@ -14,8 +14,8 @@ app.get("/", (req, res) => {
     res.send("Contact Manager Backend is Running...");
 });
 app.post("/contacts", upload.single("profileImage"), async (req, res) => {
-    console.log("Body:", req.body);
-    console.log("File:", req.file);
+    console.log("req.body =", req.body);
+    console.log("req.file =", req.file);
 
     try {
         const contact = new Contact({
@@ -37,8 +37,7 @@ app.post("/contacts", upload.single("profileImage"), async (req, res) => {
             message: error.message
         });
     }
-});
-app.get("/contacts", async (req, res) => {
+});app.get("/contacts", async (req, res) => {
     try {
         const contacts = await Contact.find();
         res.status(200).json(contacts);
