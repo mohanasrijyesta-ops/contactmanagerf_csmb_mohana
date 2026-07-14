@@ -14,6 +14,9 @@ app.get("/", (req, res) => {
     res.send("Contact Manager Backend is Running...");
 });
 app.post("/contacts", upload.single("profileImage"), async (req, res) => {
+    console.log("Body:", req.body);
+    console.log("File:", req.file);
+
     try {
         const contact = new Contact({
             ...req.body,
@@ -21,12 +24,15 @@ app.post("/contacts", upload.single("profileImage"), async (req, res) => {
                 ? `/uploads/${req.file.filename}`
                 : ""
         });
+
         await contact.save();
+
         res.status(201).json({
             message: "Contact Saved Successfully",
             contact
         });
     } catch (error) {
+        console.error(error);
         res.status(500).json({
             message: error.message
         });
